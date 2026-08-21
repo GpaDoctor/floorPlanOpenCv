@@ -28,7 +28,6 @@ dist/
 .env
 
 # OpenCV outputs
-output/
 temp/
 debug/
 results/
