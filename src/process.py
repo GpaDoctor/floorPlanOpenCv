@@ -1,0 +1,91 @@
+import cv2
+import numpy as np
+
+from keep_Green import keepGreen
+from solid_Green import solidGreen
+from remove_Green import removeGreen
+from remove_Text import removeText
+from extract_Walls import extractWalls
+# from combine import combineThem
+
+
+img = cv2.imread(
+    "../input/coverage.png"
+)
+
+# run keep_Green keepGreen
+green_only = keepGreen(img)
+
+# print (type(green_only))
+
+cv2.imwrite(
+    "../output/green_only_Step1.png",
+    green_only
+)
+
+# branch off extract green
+# run solid_Green solidGreen
+
+solid_green, green_mask = solidGreen(
+    green_only
+)
+
+# print (type(solid_green))
+
+cv2.imwrite(
+    "../output/solid_green_Step2.png",
+    solid_green
+)
+
+cv2.imwrite(
+    "../output/green_mask_Step2.png",
+    green_mask
+)
+
+# run remove_Green
+blackWhite = removeGreen(green_only)
+
+cv2.imwrite(
+    "../output/blackWhite_Step3.png",
+    blackWhite
+)
+
+nonText = removeText(blackWhite)
+
+cv2.imwrite(
+    "../output/nonText_Step4.png",
+    nonText
+)
+
+
+
+
+gray, thresh, walls = extractWalls(nonText)
+
+cv2.imwrite(
+    "../output/gray_Step5.png",
+    gray
+)
+
+cv2.imwrite(
+    "../output/thresh_Step5.png",
+    thresh
+)
+
+cv2.imwrite(
+    "../output/walls_Step5.png",
+    walls
+)
+
+combined = green_mask.copy()
+
+combined[walls < 128] = 0
+
+cv2.imwrite(
+    "../output/combined_Step6.png",
+    combined
+)
+
+np.save("../output/combined_Step6.npy", combined)
+
+print("Done")
