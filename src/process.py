@@ -10,7 +10,7 @@ from extract_Walls import extractWalls
 
 
 img = cv2.imread(
-    "../input/coverage.png"
+    "../input/a.png"
 )
 
 # run keep_Green keepGreen
@@ -51,7 +51,7 @@ cv2.imwrite(
     blackWhite
 )
 
-nonText = removeText(blackWhite)
+nonText, flag = removeText(blackWhite)
 
 cv2.imwrite(
     "../output/nonText_Step4.png",
@@ -78,7 +78,10 @@ cv2.imwrite(
     walls
 )
 
-combined = green_mask.copy()
+if flag:
+    combined = cv2.bitwise_not(blackWhite.copy())
+else:
+    combined = green_mask.copy()
 
 combined[walls < 128] = 0
 

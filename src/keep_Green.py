@@ -162,3 +162,4 @@ def keepGreen(img):
     result[largest_mask > 0] = img[largest_mask > 0]
 
     return result
+    # return result, dominant_hue
