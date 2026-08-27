@@ -91,10 +91,20 @@ else:
 
 combined[walls < 128] = 0
 
+
+output_file = (
+    Path(__file__).resolve().parent.parent
+    / "output"
+    / "combined_Step6.png"
+)
+
+print("Saving to:", output_file)
+
 cv2.imwrite(
-    "../output/combined_Step6.png",
+    str(output_file),
     combined
 )
+
 
 # np.save("../output/combined_Step6.npy", combined)
 
