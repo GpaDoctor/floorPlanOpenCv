@@ -1,95 +1,103 @@
 import cv2
 import numpy as np
+import sys
 
 from keep_Green import keepGreen
 from solid_Green import solidGreen
 from remove_Green import removeGreen
 from remove_Text import removeText
 from extract_Walls import extractWalls
+
+# used as 
+# git submodule add <visual-repo-url> visual
+
 # from combine import combineThem
 
+# def process_floorplan(input_file, output_file):
 
-img = cv2.imread(
-    "../input/a.png"
-)
+    input_file = sys.argv[1]
 
-# run keep_Green keepGreen
-green_only = keepGreen(img)
+    img = cv2.imread(input_file)
 
-# print (type(green_only))
+    # run keep_Green keepGreen
+    green_only = keepGreen(img)
 
-cv2.imwrite(
-    "../output/green_only_Step1.png",
-    green_only
-)
+    # print (type(green_only))
 
-# exit()
-# branch off extract green
-# run solid_Green solidGreen
+    # cv2.imwrite(
+    #     "../output/green_only_Step1.png",
+    #     green_only
+    # )
 
-solid_green, green_mask = solidGreen(
-    green_only
-)
+    # exit()
+    # branch off extract green
+    # run solid_Green solidGreen
 
-# print (type(solid_green))
+    solid_green, green_mask = solidGreen(
+        green_only
+    )
 
-cv2.imwrite(
-    "../output/solid_green_Step2.png",
-    solid_green
-)
+    # print (type(solid_green))
 
-cv2.imwrite(
-    "../output/green_mask_Step2.png",
-    green_mask
-)
+    # cv2.imwrite(
+    #     "../output/solid_green_Step2.png",
+    #     solid_green
+    # )
 
-# run remove_Green
-blackWhite = removeGreen(green_only)
+    # cv2.imwrite(
+    #     "../output/green_mask_Step2.png",
+    #     green_mask
+    # )
 
-cv2.imwrite(
-    "../output/blackWhite_Step3.png",
-    blackWhite
-)
+    # run remove_Green
+    blackWhite = removeGreen(green_only)
 
-nonText, flag = removeText(blackWhite)
+    # cv2.imwrite(
+    #     "../output/blackWhite_Step3.png",
+    #     blackWhite
+    # )
 
-cv2.imwrite(
-    "../output/nonText_Step4.png",
-    nonText
-)
+    nonText, flag = removeText(blackWhite)
 
-
+    # cv2.imwrite(
+    #     "../output/nonText_Step4.png",
+    #     nonText
+    # )
 
 
-gray, thresh, walls = extractWalls(nonText)
 
-cv2.imwrite(
-    "../output/gray_Step5.png",
-    gray
-)
 
-cv2.imwrite(
-    "../output/thresh_Step5.png",
-    thresh
-)
+    gray, thresh, walls = extractWalls(nonText)
 
-cv2.imwrite(
-    "../output/walls_Step5.png",
-    walls
-)
+    # cv2.imwrite(
+    #     "../output/gray_Step5.png",
+    #     gray
+    # )
 
-if flag:
-    combined = cv2.bitwise_not(blackWhite.copy())
-else:
-    combined = green_mask.copy()
+    # cv2.imwrite(
+    #     "../output/thresh_Step5.png",
+    #     thresh
+    # )
 
-combined[walls < 128] = 0
+    # cv2.imwrite(
+    #     "../output/walls_Step5.png",
+    #     walls
+    # )
 
-cv2.imwrite(
-    "../output/combined_Step6.png",
-    combined
-)
+    if flag:
+        combined = cv2.bitwise_not(blackWhite.copy())
+    else:
+        combined = green_mask.copy()
 
-np.save("../output/combined_Step6.npy", combined)
+    combined[walls < 128] = 0
 
-print("Done")
+    cv2.imwrite(
+        "../output/combined_Step6.png",
+        combined
+    )
+
+    # np.save("../output/combined_Step6.npy", combined)
+
+    print("Done")
+
+    # return output_file
