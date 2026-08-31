@@ -93,11 +93,13 @@ else:
 combined[walls < 128] = 0
 
 
-output_file = (
-    Path(__file__).resolve().parent.parent
-    / "output"
-    / "combined_Step6.png"
-)
+# output_file = (
+#     Path(__file__).resolve().parent.parent
+#     / "output"
+#     / "combined_Step6.png"
+# )
+
+output_file = sys.argv[2]
 
 print("Saving to:", output_file)
 
